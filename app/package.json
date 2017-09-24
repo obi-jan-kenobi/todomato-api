@@ -4,16 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bookshelf": "^0.10.4",
     "folktale": "^2.0.1",
     "kcors": "2",
-    "knex": "^0.13.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-jwt": "^3.2.2",

@@ -1,3 +1,5 @@
+'use strict'
+
 const secure = require('secure-password')
 
 const pwd = secure()
