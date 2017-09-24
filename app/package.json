@@ -1,0 +1,23 @@
+{
+  "name": "todomato-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bookshelf": "^0.10.4",
+    "folktale": "^2.0.1",
+    "kcors": "2",
+    "knex": "^0.13.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-jwt": "^3.2.2",
+    "koa-passport": "^4.0.0",
+    "secure-password": "^2.1.1"
+  }
+}
