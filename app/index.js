@@ -1,11 +1,14 @@
 'use strict'
 
 const Koa = require('koa')
+const cors = require('koa-cors')
 const jwt = require('koa-jwt')
 
 const app = new Koa()
 
 const sequelize = require('./sequelize')
+
+app.use(cors())
 
 app.use(async (ctx, next) => {
   try {
