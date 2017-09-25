@@ -1,6 +1,11 @@
 FROM node:alpine
 
-ENV APPDIR "/app"
+USER node
+
+ENV APPDIR "/home/node/app"
+ENV PORT 3000
+
+RUN mkdir -p ${APPDIR}
 
 COPY app/yarn.lock ${APPDIR}/
 COPY app/package.json ${APPDIR}/
