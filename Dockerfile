@@ -3,7 +3,6 @@ FROM node:alpine
 USER node
 
 ENV APPDIR "/home/node/app"
-ENV NODE_ENV "production"
 ENV PORT 3000
 
 RUN mkdir -p ${APPDIR}
@@ -11,7 +10,7 @@ RUN mkdir -p ${APPDIR}
 COPY app/package.json ${APPDIR}/
 
 WORKDIR ${APPDIR}
-RUN yarn
+RUN npm install
 
 COPY app ${APPDIR}
 

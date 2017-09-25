@@ -2,7 +2,6 @@
 
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
-const cors = require('koa-cors')
 const jwt = require('koa-jwt')
 const jsonwebtoken = require('jsonwebtoken')
 

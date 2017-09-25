@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "debug": "nodemon --watch . --inspect=0.0.0.0:5858 --nolazy index.js",
+    "docker-debug": "docker-compose up",
     "test": "mocha"
   },
   "keywords": [],
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^3.5.3"
+    "mocha": "^3.5.3",
+    "nodemon": "^1.12.1"
   }
 }

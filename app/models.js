@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
-const authentication = require('./authentication')
+const secure = require('./secure')
 
 const User = sequelize.define('user', {
   email: {
@@ -14,7 +14,7 @@ const User = sequelize.define('user', {
 })
 
 User.beforeCreate((user, options) =>
-  authentication.hash(user.password)
+  secure.hash(user.password)
     .then(hashedPw => { user.password = hashedPw })
     .catch(err => console.log(err))
 )
