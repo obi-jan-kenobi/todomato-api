@@ -15,7 +15,9 @@ const User = sequelize.define('user', {
 
 User.beforeCreate((user, options) =>
   secure.hash(user.password)
-    .then(hashedPw => { user.password = hashedPw.toString() })
+    .then(hashedPw => { 
+      console.log(hashedPw.toString().replace(/\u0000/g, ''))
+      user.password = hashedPw.toString().replace(/\u0000/g, '') })
 )
 
 const Todo = sequelize.define('todo', {

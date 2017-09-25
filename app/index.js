@@ -57,6 +57,7 @@ app.use(async (ctx, next) => {
       email,
       password
     })
+    ctx.status = 201
   } catch (err) {
     console.log('hello')
   }
