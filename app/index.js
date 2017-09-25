@@ -4,6 +4,8 @@ const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const jwt = require('koa-jwt')
 const jsonwebtoken = require('jsonwebtoken')
+const secure = require('./secure')
+const { User, Todo } = require('./models')
 
 const app = new Koa()
 
@@ -28,14 +30,35 @@ app.use(async (ctx, next) => {
 
 // unprotected (login & register)
 
+// login
 app.use(async (ctx, next) => {
   if (ctx.path !== '/login') return await next()
   try {
-    const { username, password } = ctx.request.body
-    if (username === 'username' && password === 'password')
-      return ctx.body = jsonwebtoken.sign({user: 'john.doe'}, secret)
+    const { email, password } = ctx.request.body
+    const user = await User.findOne({
+      where: {
+        email
+      }
+    })
+    console.log(user.password)
+    if (secure.validate(password, user.password))
+      return ctx.body = jsonwebtoken.sign({email}, secret)
   } catch (err) {
     throw err
+  }
+})
+
+// register
+app.use(async (ctx, next) => {
+  if (ctx.path !== '/register') return await next()
+  try {
+    const { email, password } = ctx.request.body
+    await User.create({
+      email,
+      password
+    })
+  } catch (err) {
+    console.log('hello')
   }
 })
 

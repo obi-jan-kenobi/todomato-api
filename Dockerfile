@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:slim
 
 USER node
 
@@ -11,6 +11,9 @@ COPY app/package.json ${APPDIR}/
 
 WORKDIR ${APPDIR}
 RUN npm install
+
+#WORKAROUND TILL NO MORE SEGFAULT IN ALPINE
+RUN npm install --build-from-source=secure-password
 
 COPY app ${APPDIR}
 

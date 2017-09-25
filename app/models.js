@@ -15,8 +15,7 @@ const User = sequelize.define('user', {
 
 User.beforeCreate((user, options) =>
   secure.hash(user.password)
-    .then(hashedPw => { user.password = hashedPw })
-    .catch(err => console.log(err))
+    .then(hashedPw => { user.password = hashedPw.toString() })
 )
 
 const Todo = sequelize.define('todo', {
@@ -28,7 +27,7 @@ const Todo = sequelize.define('todo', {
 User.hasMany(Todo)
 
 // force: true will drop the table if it already exists
-User.sync()
+User.sync({force: true})
 Todo.sync()
 
 module.exports =
