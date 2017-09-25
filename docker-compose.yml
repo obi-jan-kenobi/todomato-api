@@ -6,6 +6,7 @@ services:
       - db
     environment:
       - "PORT=3000"
+      - "NODE_ENV=development"
       - "DB_PASSWORD=development"
       - "DB_USER=postgres"
       - "DB_NAME=postgres"

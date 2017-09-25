@@ -11,26 +11,14 @@ class AuthError extends Error {
   }
 }
 
-const register = async (username, password) => {
-  
-}
-
-const authenticate = async (username, password) => {
-  try {
-    const validation = await validate(password, hash)
-  } catch (err) {
-
-  }
-}
-
-const hash = (password) => new Promise((resolve, reject) => {
+exports.hash = (password) => new Promise((resolve, reject) => {
   const pw = Buffer.from(password)
   pwd.hash(pw, (err, hash) => {
     err ? reject(err) : resolve(hash)
   })
 })
 
-const validate = (password, hash) => new Promise((resolve, reject) => {
+exports.validate = (password, hash) => new Promise((resolve, reject) => {
   const pw = Buffer.from(password)
   pwd.verify(pw, hash, (err, result) => {
     if (err) reject(err)
