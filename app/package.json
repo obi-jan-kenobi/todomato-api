@@ -17,6 +17,8 @@
     "koa-bodyparser": "^4.2.0",
     "koa-jwt": "^3.2.2",
     "koa-passport": "^4.0.0",
-    "secure-password": "^2.1.1"
+    "pg": "^7.3.0",
+    "secure-password": "^2.1.1",
+    "sequelize": "^4.10.3"
   }
 }
