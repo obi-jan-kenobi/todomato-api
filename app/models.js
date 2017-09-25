@@ -9,15 +9,13 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING
   },
   password: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING.BINARY
   }
 })
 
 User.beforeCreate((user, options) =>
   secure.hash(user.password)
-    .then(hashedPw => { 
-      console.log(hashedPw.toString().replace(/\u0000/g, ''))
-      user.password = hashedPw.toString().replace(/\u0000/g, '') })
+    .then(hashedPw => { user.password = hashedPw })
 )
 
 const Todo = sequelize.define('todo', {

@@ -40,7 +40,6 @@ app.use(async (ctx, next) => {
         email
       }
     })
-    console.log(user.password)
     if (secure.validate(password, user.password))
       return ctx.body = jsonwebtoken.sign({email}, secret)
   } catch (err) {

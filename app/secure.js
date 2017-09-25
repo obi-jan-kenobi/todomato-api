@@ -20,7 +20,7 @@ exports.hash = (password) => new Promise((resolve, reject) => {
 
 exports.validate = (password, hash) => new Promise((resolve, reject) => {
   const pw = Buffer.from(password)  
-  pwd.verify(pw, Buffer.from(hash), (err, result) => {
+  pwd.verify(pw, hash, (err, result) => {
     if (err) reject(err)
 
     if (result === secure.INVALID_UNRECOGNIZED_HASH) reject(new AuthError('unrecognized hash'))
