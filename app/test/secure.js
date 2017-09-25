@@ -10,7 +10,7 @@ describe('hashing', () => {
   it('should be able to verify the password', () =>
     secure
       .hash('password')
-      .then(hash => secure.validate('password', hash))
+      .then(hash => secure.validate('password', hash.toString()))
       .then(result => expect(result).to.be.equal('valid'))
 )
 
