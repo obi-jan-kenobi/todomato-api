@@ -27,8 +27,13 @@ const Todo = sequelize.define('todo', {
 User.hasMany(Todo)
 
 // force: true will drop the table if it already exists
-User.sync({force: true})
-Todo.sync()
+
+User
+  .sync({force: process.env.NODE_ENV === 'development'})
+  .then(() =>
+    Todo
+      .sync({force: process.env.NODE_ENV === 'development'}))
+
 
 module.exports =
   { User

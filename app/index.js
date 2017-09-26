@@ -58,13 +58,18 @@ app.use(async (ctx, next) => {
     })
     ctx.status = 201
   } catch (err) {
-    console.log('hello')
   }
 })
 
 // protected
 
 app.use(jwt({ secret: process.env.SECRET }))
+
+app.use(async (ctx, next) => {
+  if (ctx.path !== '/todos') return await next()
+  const { email } = ctx.state.user
+  ctx.body = email
+})
 
 sequelize
   .authenticate()
