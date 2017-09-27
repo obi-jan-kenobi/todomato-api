@@ -14,6 +14,20 @@ const secret = process.env.SECRET
 
 app.use(bodyParser())
 
+// header-helmet
+app.use(async (ctx, next) => {
+  try {
+    await next()
+    ctx.response.set('X-Content-Type-Options', 'nosniff')
+    ctx.response.set('X-Frame-Options', 'deny')
+    ctx.response.set('Content-Security-Policy', 'default-src none')
+    ctx.response.remove('X-Powered-By')
+    ctx.response.remove('Server')
+  } catch (err) {
+    throw err
+  }
+})
+
 app.use(async (ctx, next) => {
   try {
     await next()
