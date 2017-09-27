@@ -52,12 +52,20 @@ app.use(async (ctx, next) => {
   if (ctx.path !== '/register') return await next()
   try {
     const { email, password } = ctx.request.body
+    const user = await User.find({
+      where: {
+        email
+      }
+    })
+    if (!user) return ctx.status = 409
     await User.create({
       email,
       password
     })
     ctx.status = 201
   } catch (err) {
+    err.status(500)
+    throw err
   }
 })
 
@@ -65,10 +73,38 @@ app.use(async (ctx, next) => {
 
 app.use(jwt({ secret: process.env.SECRET }))
 
+
+// todos route
 app.use(async (ctx, next) => {
   if (ctx.path !== '/todos') return await next()
-  const { email } = ctx.state.user
-  ctx.body = email
+  try {
+    const { email } = ctx.state.user
+    if (ctx.method === 'GET') {
+      const user = await User.find({
+        where: {
+          email
+        }
+      })
+      user
+        .getTodos()
+        .then(todos => ctx.body = todos)
+    }
+    if (ctx.method === 'POST') {
+      const user = await User.find({
+        where: {
+          email
+        }
+      })
+      const {name} = ctx.request.body
+      const todo = await Todo.create({
+        name
+      })
+      await user.addTodo(todo)
+    }
+  } catch (err) {
+    err.status = 500
+    throw err
+  }
 })
 
 sequelize
