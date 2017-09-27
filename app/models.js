@@ -5,8 +5,14 @@ const sequelize = require('./sequelize')
 const secure = require('./secure')
 
 const User = sequelize.define('user', {
+  id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    defaultValue: Sequelize.UUIDV1,
+  },
   email: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    unique: true,
   },
   password: {
     type: Sequelize.STRING.BINARY
