@@ -5,13 +5,12 @@ const bodyParser = require('koa-bodyparser')
 const jwt = require('koa-jwt')
 const jsonwebtoken = require('jsonwebtoken')
 const secure = require('./secure')
+const sequelize = require('./sequelize')
 const { User, Todo } = require('./models')
 
 const app = new Koa()
 
 const secret = process.env.SECRET
-
-const sequelize = require('./sequelize')
 
 app.use(bodyParser())
 
@@ -40,6 +39,7 @@ app.use(async (ctx, next) => {
         email
       }
     })
+    if (!user) return ctx.status = 401
     if (secure.validate(password, user.password))
       return ctx.body = jsonwebtoken.sign({email}, secret)
   } catch (err) {
@@ -57,7 +57,7 @@ app.use(async (ctx, next) => {
         email
       }
     })
-    if (!user) return ctx.status = 409
+    if (user) return ctx.status = 409
     await User.create({
       email,
       password
@@ -70,9 +70,7 @@ app.use(async (ctx, next) => {
 })
 
 // protected
-
 app.use(jwt({ secret: process.env.SECRET }))
-
 
 // todos route
 app.use(async (ctx, next) => {
@@ -85,9 +83,8 @@ app.use(async (ctx, next) => {
           email
         }
       })
-      user
-        .getTodos()
-        .then(todos => ctx.body = todos)
+      const todos = await user.getTodos()
+      ctx.body = todos.map(todo => ({id: todo.id, name: todo.name}))
     }
     if (ctx.method === 'POST') {
       const user = await User.find({
@@ -100,6 +97,7 @@ app.use(async (ctx, next) => {
         name
       })
       await user.addTodo(todo)
+      ctx.status = 201
     }
   } catch (err) {
     err.status = 500
