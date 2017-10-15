@@ -65,6 +65,17 @@ app.use(async (ctx, next) => {
       return ctx.body = jsonwebtoken.sign({email}, secret, { expiresIn: '1h' })
     else return ctx.status = 401
   } catch (err) {
+    if (err.name === AuthError && err.message === 'rehash')
+    try {
+      const { email, password } = ctx.request.body
+      await User.findOne({
+        where: {
+          email
+        }
+      }).set('password', await secure.hash(password))
+    } catch (innerErr) {
+      throw err
+    }
     throw err
   }
 })

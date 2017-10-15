@@ -31,6 +31,7 @@ exports.validate = (password, hash) => new Promise((resolve, reject) => {
 
     if (result === secure.INVALID_UNRECOGNIZED_HASH) reject(new AuthError('unrecognized hash'))
     if (result === secure.INVALID) reject(new AuthError('invalid'))
+    if (result === secure.VALID_NEEDS_REHASH) reject(new AuthError('rehash'))
     if (result === secure.VALID) resolve('valid')
   })
 })
