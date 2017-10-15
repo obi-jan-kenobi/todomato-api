@@ -11,6 +11,9 @@ class AuthError extends Error {
   }
 }
 
+/**
+ * Promise wrapper around the hashing algorithm
+ */
 exports.hash = (password) => new Promise((resolve, reject) => {
   const pw = Buffer.from(password)
   pwd.hash(pw, (err, hash) => {
@@ -18,6 +21,9 @@ exports.hash = (password) => new Promise((resolve, reject) => {
   })
 })
 
+/**
+ * Promise wrapper around the password validation
+ */
 exports.validate = (password, hash) => new Promise((resolve, reject) => {
   const pw = Buffer.from(password)  
   pwd.verify(pw, hash, (err, result) => {

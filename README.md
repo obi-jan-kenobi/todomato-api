@@ -1,4 +1,2 @@
-# todomato-api
-## Backend for todomato-app
-
-This is me, getting to know Koa, Sequelize and Postgres. Full description once its deployed.
+# Koa2 with Argon2 and PostgreSQL
+## Authentication flow example

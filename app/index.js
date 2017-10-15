@@ -14,7 +14,7 @@ const secret = process.env.SECRET
 
 app.use(bodyParser())
 
-// header-helmet
+// header-helmet to set sensible response headers
 app.use(async (ctx, next) => {
   try {
     await next()
@@ -28,6 +28,7 @@ app.use(async (ctx, next) => {
   }
 })
 
+// generic error handler
 app.use(async (ctx, next) => {
   try {
     await next()
@@ -43,7 +44,13 @@ app.use(async (ctx, next) => {
 
 // unprotected (login & register)
 
-// login
+/**
+ * Login-route
+ * 
+ * if Userlookup with given email returns nothing return 401
+ * if passwords dont match return 401
+ * otherwise return json-webtoken with the users email included
+ */
 app.use(async (ctx, next) => {
   if (ctx.path !== '/login') return await next()
   try {
@@ -55,13 +62,14 @@ app.use(async (ctx, next) => {
     })
     if (!user) return ctx.status = 401
     if (secure.validate(password, user.password))
-      return ctx.body = jsonwebtoken.sign({email}, secret)
+      return ctx.body = jsonwebtoken.sign({email}, secret, { expiresIn: '1h' })
+    else return ctx.status = 401
   } catch (err) {
     throw err
   }
 })
 
-// register
+// register-route
 app.use(async (ctx, next) => {
   if (ctx.path !== '/register') return await next()
   try {
@@ -78,7 +86,7 @@ app.use(async (ctx, next) => {
     })
     ctx.status = 201
   } catch (err) {
-    err.status(500)
+    err.status = 500
     throw err
   }
 })
